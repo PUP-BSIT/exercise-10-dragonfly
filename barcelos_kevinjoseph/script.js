@@ -11,12 +11,14 @@ let commentsArray = [
     },
     {
         name: "Angelica Joy Uy",
-        comment: "Great goals! They'll bring new skills, experience and growth. Exciting journey ahead!",
+        comment: "Great goals! They'll bring new skills, experience"
+                    + " growth. Exciting journey ahead!",
         timestamp: new Date(2025, 2, 19, 10, 0, 0)
     },
     {
         name: "Gener Andaya Jr.",
-        comment: "Your goals are amazing and full of growth. Keep striving, and step by step, you'll achieve them all!",
+        comment: "Your goals are amazing and full of growth. Keep striving,"
+                    + " and step by step, you'll achieve them all!",
         timestamp: new Date(2025, 2, 19, 11, 0, 0)
     }
 ];
@@ -31,8 +33,8 @@ function toggleCommentButtonState() {
     renderComments();
 }
 
-commentButton.addEventListener("click", function (e) {
-    e.preventDefault();
+commentButton.addEventListener("click", function (event) {
+    event.preventDefault();
     let name = nameInput.value.trim();
     let comment = messageInput.value.trim();
     if (name && comment) {
