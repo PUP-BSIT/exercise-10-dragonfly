@@ -42,6 +42,26 @@ img {
     text-align: center;
 }
 
+/* Button Styling */
+#buttons_container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#buttons_container button {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #10cf29;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#buttons_container button:hover {
+    background-color: #e09e33;
+}
+
 /* Navigation Bar Styling */
 nav {
     background-color: #14a8a3;
@@ -205,7 +225,7 @@ a:hover {
 }
 
 .comment-container button:hover:not(:disabled) {
-    background-color: #ebb29f;
+    background-color: #676260;
 }
 
 /* Mobile S */
