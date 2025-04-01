@@ -1,215 +1,99 @@
-let nameInput = document.getElementById("name");
-let commentInput = document.getElementById("comment");
-let commentButton = document.getElementById("comment-button");
-let teamCommentSection = document.querySelector(".team-comment");
+let commentName = document.getElementById("name");
+let commentText = document.getElementById("comment");
+let commentBtn = document.getElementById("comment-button");
+let sortSelect = document.getElementById("sort_comments");
 
-// Store original default comments when page loads
-let defaultComments = [];
-
-function initSortControls() {
-    // Store default comments first
-    storeDefaultComments();
-
-    let sortControls = document.createElement("div");
-    sortControls.className = "sort-controls";
-
-    let sortLabel = document.createElement("span");
-    sortLabel.textContent = "Sort comments: ";
-    sortLabel.className = "sort-label";
-
-    let sortSelect = document.createElement("select");
-    sortSelect.id = "comment-sort";
-    sortSelect.className = "sort-select";
-
-    let defaultOption = document.createElement("option");
-    defaultOption.value = "default";
-    defaultOption.textContent = "Default";
-
-    let newestOption = document.createElement("option");
-    newestOption.value = "newest";
-    newestOption.textContent = "Newest first";
-
-    let oldestOption = document.createElement("option");
-    oldestOption.value = "oldest";
-    oldestOption.textContent = "Oldest first";
-
-    sortSelect.appendChild(defaultOption);
-    sortSelect.appendChild(newestOption);
-    sortSelect.appendChild(oldestOption);
-
-    sortSelect.addEventListener("change", function () {
-        sortComments(this.value);
-    });
-
-    sortControls.appendChild(sortLabel);
-    sortControls.appendChild(sortSelect);
-
-    teamCommentSection.insertBefore(
-        sortControls,
-        teamCommentSection.firstChild
-    );
+function buttonState() {
+    let isFilled = commentName.value.trim() && commentText.value.trim();
+    commentBtn.disabled = !isFilled;
 }
 
-function storeDefaultComments() {
-    let commentHeadings = teamCommentSection.querySelectorAll("h4.font-2");
+commentName.addEventListener("input", buttonState);
+commentText.addEventListener("input", buttonState);
 
-    commentHeadings.forEach((heading) => {
-        let defaultComment = {
-            name: heading.textContent,
-            comment: heading.nextElementSibling
-                ? heading.nextElementSibling.tagName === "UL"
-                    ? heading.nextElementSibling.querySelector("p").textContent
-                    : heading.nextElementSibling.textContent
-                : "",
-        };
-        defaultComments.push(defaultComment);
-    });
-}
-
-function sortComments(sortOrder) {
-    let comments = Array.from(
-        teamCommentSection.querySelectorAll(".user-comment")
-    );
-
-    if (sortOrder === "newest") {
-        comments.sort((a, b) => {
-            return (
-                new Date(b.dataset.timestamp) - new Date(a.dataset.timestamp)
-            );
-        });
-    } else if (sortOrder === "oldest") {
-        comments.sort((a, b) => {
-            return (
-                new Date(a.dataset.timestamp) - new Date(b.dataset.timestamp)
-            );
-        });
-    } else {
-        comments.sort((a, b) => {
-            return (
-                parseInt(a.dataset.originalIndex) -
-                parseInt(b.dataset.originalIndex)
-            );
-        });
+// Set up comment submission
+commentBtn.addEventListener("click", (event) => {
+    event.preventDefault(); 
+    let nameValue = commentName.value.trim();
+    let textValue = commentText.value.trim();
+    
+    if (!nameValue || !textValue) {
+        console.error("Both fields must be filled.");
+        return;
     }
-
-    while (teamCommentSection.firstChild) {
-        teamCommentSection.removeChild(teamCommentSection.firstChild);
-    }
-
-    let sortControls = document.createElement("div");
-    sortControls.className = "sort-controls";
-
-    let sortLabel = document.createElement("span");
-    sortLabel.textContent = "Sort comments: ";
-    sortLabel.className = "sort-label";
-
-    let sortSelect = document.createElement("select");
-    sortSelect.id = "comment-sort";
-    sortSelect.className = "sort-select";
-
-    let defaultOption = document.createElement("option");
-    defaultOption.value = "default";
-    defaultOption.textContent = "Default";
-
-    let newestOption = document.createElement("option");
-    newestOption.value = "newest";
-    newestOption.textContent = "Newest first";
-
-    let oldestOption = document.createElement("option");
-    oldestOption.value = "oldest";
-    oldestOption.textContent = "Oldest first";
-
-    sortSelect.appendChild(defaultOption);
-    sortSelect.appendChild(newestOption);
-    sortSelect.appendChild(oldestOption);
-    sortSelect.value = sortOrder;
-
-    sortSelect.addEventListener("change", function () {
-        sortComments(this.value);
-    });
-
-    sortControls.appendChild(sortLabel);
-    sortControls.appendChild(sortSelect);
-
-    teamCommentSection.appendChild(sortControls);
-
-    let heading = document.createElement("h2");
-    heading.className = "font";
-    heading.textContent = "Comments";
-    teamCommentSection.appendChild(heading);
-
-    defaultComments.forEach((defaultComment) => {
-        let nameElement = document.createElement("h4");
-        nameElement.className = "font-2";
-        nameElement.textContent = defaultComment.name;
-
-        let commentElement = document.createElement("p");
-        commentElement.textContent = defaultComment.comment;
-        commentElement.classList.add("default-comment");
-
-        teamCommentSection.appendChild(nameElement);
-        teamCommentSection.appendChild(commentElement);
-    });
-
-    comments.forEach((comment) => {
-        teamCommentSection.appendChild(comment);
-    });
-}
-
-function updateButtonState() {
-    let nameValue = nameInput.value.trim();
-    let commentValue = commentInput.value.trim();
-
-    commentButton.disabled = !(nameValue && commentValue);
-}
-
-let commentCounter = 0;
-
-function addComment(name, comment) {
-    let commentWrapper = document.createElement("div");
-    commentWrapper.classList.add("user-comment");
-
-    let timestamp = new Date().toISOString();
-    commentWrapper.dataset.timestamp = timestamp;
-    commentWrapper.dataset.originalIndex = commentCounter++;
-
-    let nameElement = document.createElement("h4");
-    nameElement.classList.add("font-2");
-    nameElement.textContent = name;
-
-    let commentElement = document.createElement("p");
-    commentElement.textContent = "- " + comment;
-
-    let timeElement = document.createElement("small");
-    timeElement.classList.add("comment-time");
-    timeElement.textContent = new Date().toLocaleString();
-
-    commentWrapper.appendChild(nameElement);
-    commentWrapper.appendChild(commentElement);
-    commentWrapper.appendChild(timeElement);
-
-    teamCommentSection.appendChild(commentWrapper);
-
-    nameInput.value = "";
-    commentInput.value = "";
-
-    updateButtonState();
-}
-
-nameInput.addEventListener("input", updateButtonState);
-commentInput.addEventListener("input", updateButtonState);
-
-commentButton.addEventListener("click", function (e) {
-    e.preventDefault();
-
-    let name = nameInput.value.trim();
-    let comment = commentInput.value.trim();
-
-    if (name && comment) {
-        addComment(name, comment);
-    }
+    
+    addComment(nameValue, textValue);
+    
+    // Reset the form
+    commentName.value = "";
+    commentText.value = "";
+    buttonState();
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    initSortControls();
+// Function to add a new comment to the page
+function addComment(name, text) {
+    let commentDiv = document.createElement("div");
+    commentDiv.classList.add("team-comment");
+    
+    let timestamp = new Date();
+    let timestampText = `(${timestamp.toLocaleString()})`;
+    
+    let nameElement = document.createElement("h4");
+    nameElement.textContent = name;
+    nameElement.classList.add("font-2");
+    
+    let textElement = document.createElement("p");
+    textElement.textContent = `-${text}`;
+    
+    let timestampElement = document.createElement("small");
+    timestampElement.textContent = timestampText;
+    
+    commentDiv.appendChild(nameElement);
+    commentDiv.appendChild(textElement);
+    commentDiv.appendChild(timestampElement);
+    
+    let commentForm = document.querySelector(".comment-form");
+    commentForm.parentNode.insertBefore(commentDiv, commentForm);
+    
+    sortComments();
+}
+
+// Function to sort comments
+function sortComments() {
+    let allComments = Array.from(document.querySelectorAll(".team-comment"));
+    let sortOrder = sortSelect.value; 
+    
+    // Sort comments based on timestamp
+    allComments.sort((a, b) => {
+        let extractTimestamp = (element) => {
+            let smallElement = element.querySelector("small");
+            if (!smallElement) return 0; 
+            let text = smallElement.textContent;
+            return new Date(text.replace(/[()]/g, '')); 
+        };
+        
+        let timeA = extractTimestamp(a);
+        let timeB = extractTimestamp(b);
+        
+        return sortOrder === "latest" ? timeB - timeA : timeA - timeB;
+    });
+    
+    let commentFormElement = document.querySelector(".comment-form");
+    let parentElement = commentFormElement.parentNode;
+    
+    allComments.forEach(comment => parentElement.removeChild(comment));
+    
+    allComments.forEach(comment => {
+        parentElement.insertBefore(comment, commentFormElement);
+    });
+}
+
+sortSelect.addEventListener("change", sortComments);
+
+let contactForm = document.getElementById("contact-form");
+
+contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    alert("Thank you for your message! I'll get back to you soon.");
+    contactForm.reset();
 });
