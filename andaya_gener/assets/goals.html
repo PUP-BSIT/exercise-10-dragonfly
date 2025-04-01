@@ -27,7 +27,7 @@
             <li>• Continuously improve my coding skills.</li>
             <li>• Build personal projects to improve skills.</li>
             <li>
-                • Explore HTML, CSS, and JavaScript to create interactive 
+                • Explore HTML, CSS, and JavaScript to create interactive
                   websites.
             </li>
         </ul>
@@ -36,34 +36,39 @@
     <div id="comments_section">
         <div class="asset">
             <h3>Teammates' Comments</h3>
-            <p>
-                Keep up the good work. Your earmest efforts will bear fruit - 
+            <p data-date="2025-03-19T10:20:00">
+                Keep up the good work. Your earnest efforts will bear fruit -
                 Kevin Barcelos
             </p>
-            <p>
-                Consistent learning is key. Keep pushing yourself! - 
+            <p data-date="2025-03-19T10:30:00">
+                Consistent learning is key. Keep pushing yourself! -
                 Ashley Hermione Gomez
             </p>
-            <p>
-                Keep pushing yourself to experiment with new technologies, 
+            <p data-date="2025-03-19T10:40:00">
+                Keep pushing yourself to experiment with new technologies,
                 and don't forget to celebrate small wins along the way! -
                 Angelica Joy Uy
             </p>
-        </div> 
+        </div>
+        
+        <div id="buttons_container">
+            <button id="sort_by_date_ascending">Sort Ascending</button>
+            <button id="sort_by_date_descending">Sort Descending</button>
+        </div>
     </div>
-
+     
     <div class="comment-container">
         <h2>Comment Form</h2>
         <form id="comment_form">
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" 
+            <input type="text" id="name" name="name"
                    placeholder="Enter your name" required>
             
             <label for="comment">Comment:</label>
             <textarea id="comment" name="comment" rows="5"
                       placeholder="Enter your comment" required></textarea>
             
-            <button type="submit" id="comment_button" 
+            <button type="submit" id="comment_button"
                     disabled> Post Comment</button>
         </form>
     </div>
