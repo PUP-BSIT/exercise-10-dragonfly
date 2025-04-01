@@ -1,6 +1,6 @@
 body {
-    font-family: 'Poppins', sans-serif;
-    background: url('assets/img1.jpg') no-repeat center/cover fixed;
+    font-family: "Poppins", sans-serif;
+    background: url("assets/img1.jpg") no-repeat center/cover fixed;
     color: #5a5a5a;
     text-align: center;
     margin: 0;
@@ -8,13 +8,18 @@ body {
 }
 
 .header h1 {
-    background: url('assets/img2.jpg') no-repeat center/cover;
+    background: url("assets/img2.jpg") no-repeat center/cover;
     color: black;
     padding: 40px;
     border-radius: 20px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: #ff6699;
 }
 
@@ -25,7 +30,9 @@ h1, h2, h3, h4, h5, h6 {
     gap: 20px;
 }
 
-.box, .container, .comment-box {
+.box,
+.container,
+.comment-box {
     background-color: #ffedf5;
     border: 3px solid #ffccdd;
     border-radius: 15px;
@@ -40,11 +47,13 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 37.5rem;
 }
 
-.container, .comment-box {
+.container,
+.comment-box {
     max-width: 25rem;
 }
 
-ul, ol {
+ul,
+ol {
     text-align: left;
     display: block;
     margin: 0 auto;
@@ -84,7 +93,8 @@ label {
     display: block;
 }
 
-input, textarea {
+input,
+textarea {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -93,7 +103,8 @@ input, textarea {
     box-sizing: border-box;
 }
 
-.name-group, .email-group {
+.name-group,
+.email-group {
     display: flex;
     gap: 10px;
     justify-content: space-between;
@@ -101,36 +112,40 @@ input, textarea {
     align-items: center;
 }
 
-.name-group label, .email-group label {
+.name-group label,
+.email-group label {
     width: 100%;
 }
 
-.name-group input, .email-group input {
+.name-group input,
+.email-group input {
     width: 100%;
 }
 
 .button-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-top: 15px;
     width: 100%;
 }
 
-button, #submit_comment {
+button,
+#submit_comment {
     background-color: #ff99cc;
     color: white;
     border: none;
     border-radius: 10px;
     padding: 10px 20px;
     cursor: pointer;
-    width: 48%;
+    width: 45%; /* Adjusted width */
 }
 
 button[type="reset"] {
     background-color: #ffb3d9;
 }
 
-button:hover, #submit_comment:hover {
+button:hover,
+#submit_comment:hover {
     background-color: #ff66a3;
 }
 
@@ -145,36 +160,24 @@ button:hover, #submit_comment:hover {
 }
 
 @media (max-width: 320px) {
-    .box{
-        width: 90%;
-        padding: 15px;
-    }
-
-    .container{
+    .box,
+    .container {
         width: 90%;
         padding: 15px;
     }
 }
 
 @media (max-width: 425px) {
-    .box{
-        width: 90%;
-        padding: 15px;
-    }
-
-    .container{
+    .box,
+    .container {
         width: 90%;
         padding: 15px;
     }
 }
 
 @media (max-width: 768px) {
-    .box{
-        width: 90%;
-        padding: 15px;
-    }
-
-    .container{
+    .box,
+    .container {
         width: 90%;
         padding: 15px;
     }
