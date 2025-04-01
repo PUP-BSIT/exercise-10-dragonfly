@@ -78,7 +78,7 @@ h1 {
 }
 
 .box-2:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
 }
 
 .box-2:last-child {
@@ -95,7 +95,7 @@ h1 {
 }
 
 .box-3:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
 }
 
 .box-3:last-child {
@@ -168,7 +168,7 @@ a:hover {
 }
 
 #contact-section:hover {
-    transform: translateY(-5px);
+    transform: translateY(-8px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
@@ -330,6 +330,10 @@ a:hover {
     font-family: inherit;
     transition: all 0.3s ease;
     background-color: #fff;
+}
+
+small {
+    background-color: #dce4eb;
 }
 
 .comment-section {
