@@ -1,40 +1,35 @@
-// Comment disabled button
 let commentButton = document.getElementById("comment_button");
+commentButton.disabled = true;
 let nameInput = document.getElementById("name_input");
 let messageInput = document.getElementById("message_input");
+let sortOrderAscending = true;
+let commentsArray = [
+    {
+        name: "Ashley Hermione Gomez",
+        comment: "Nice goals! Hope you get to explore amazing places.",
+        timestamp: new Date(2025, 2, 19, 9, 0, 0)
+    },
+    {
+        name: "Angelica Joy Uy",
+        comment: "Great goals! They'll bring new skills, experience and growth."
+                + " Exciting journey ahead!",
+        timestamp: new Date(2025, 2, 19, 10, 0, 0)
+    },
+    {
+        name: "Gener Andaya Jr.",
+        comment: "Your goals are amazing and full of growth. Keep striving,"
+                + " and step by step, you'll achieve them all!",
+        timestamp: new Date(2025, 2, 19, 11, 0, 0)
+    }
+];
 
-commentButton.disabled = true;
-
-function toggleButtonState() {
+// Comment Button Functionality
+nameInput.addEventListener("input", toggleCommentButtonState);
+messageInput.addEventListener("input", toggleCommentButtonState);
+function toggleCommentButtonState() {
     let isNameFilled = nameInput.value.trim();
     let isMessageFilled = messageInput.value.trim();
     commentButton.disabled = !(isNameFilled && isMessageFilled);
-}
-nameInput.addEventListener("input", toggleButtonState);
-messageInput.addEventListener("input", toggleButtonState);
-
-// Add comment function
-function addComment(name, comment) {
-    let commentWrapper = document.createElement("div");
-    commentWrapper.classList.add("user-comment");
-
-    let nameElement = document.createElement("h4");
-    nameElement.classList.add("font-2");
-    nameElement.textContent = name;
-
-    let commentElement = document.createElement("p");
-    commentElement.textContent = "- " + comment;
-
-    commentWrapper.appendChild(nameElement);
-    commentWrapper.appendChild(commentElement);
-
-    let teamCommentSection = document.querySelector(".member-comments");
-    teamCommentSection.append(commentWrapper);
-
-    nameInput.value = "";
-    messageInput.value = "";
-
-    toggleButtonState();
 }
 
 commentButton.addEventListener("click", function (e) {
@@ -44,4 +39,69 @@ commentButton.addEventListener("click", function (e) {
     if (name && comment) {
         addComment(name, comment);
     }
+
+    renderComments();
 });
+
+// Sort button functionality
+let sortButton = document.getElementById("sort_button");
+sortButton.addEventListener("click", toggleSortOrder);
+function toggleSortOrder() {
+    sortOrderAscending = !sortOrderAscending;
+    sortButton.textContent = `Sort by Date ${sortOrderAscending ? "↑" : "↓"}`;
+    renderComments();
+}
+
+function addComment(name, comment) {
+    commentsArray.push({
+        name: name,
+        comment: comment,
+        timestamp: new Date()
+    });
+
+    nameInput.value = "";
+    messageInput.value = "";
+    toggleCommentButtonState();
+
+    renderComments();
+}
+
+//Clears current output and shows the correct other sorted output 
+function renderComments() {
+    commentsArray.sort((a, b) => {
+        if (sortOrderAscending) {
+            return a.timestamp - b.timestamp;
+        } else {
+            return b.timestamp - a.timestamp;
+        }
+    });
+
+    let teamCommentSection = document.querySelector(".member-comments");
+    teamCommentSection.innerHTML = "";
+
+    commentsArray.forEach((comment) => {
+        let commentWrapper = document.createElement("div");
+        commentWrapper.classList.add("user-comment");
+
+        let nameElement = document.createElement("h4");
+        nameElement.classList.add("font-2");
+        nameElement.textContent = comment.name;
+
+        let commentElement = document.createElement("p");
+        commentElement.textContent = "- " + comment.comment;
+
+        let timestampElement = document.createElement("p");
+        timestampElement.classList.add("comment-timestamp");
+        let commentDate = comment.timestamp.toLocaleString()
+        timestampElement.textContent = formatDate(commentDate);
+
+        commentWrapper.appendChild(nameElement);
+        commentWrapper.appendChild(commentElement);
+        commentWrapper.appendChild(timestampElement);
+
+        teamCommentSection.appendChild(commentWrapper);
+    });
+}
+
+// renders existing comments on page load
+document.addEventListener("DOMContentLoaded", renderComments);
