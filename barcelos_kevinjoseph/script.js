@@ -31,15 +31,6 @@ function toggleCommentButtonState() {
     renderComments();
 }
 
-// Sort button functionality
-let sortButton = document.getElementById("sort_button");
-sortButton.addEventListener("click", toggleSortOrder);
-function toggleSortOrder() {
-    sortOrderAscending = !sortOrderAscending;
-    sortButton.textContent = `Sort by Date ${sortOrderAscending ? "↑" : "↓"}`;
-    renderComments();
-}
-
 commentButton.addEventListener("click", function (e) {
     e.preventDefault();
     let name = nameInput.value.trim();
@@ -48,6 +39,15 @@ commentButton.addEventListener("click", function (e) {
         addComment(name, comment);
     }
 });
+
+// Sort button functionality
+let sortButton = document.getElementById("sort_button");
+sortButton.addEventListener("click", toggleSortOrder);
+function toggleSortOrder() {
+    sortOrderAscending = !sortOrderAscending;
+    sortButton.textContent = `Sort by Date ${sortOrderAscending ? "↑" : "↓"}`;
+    renderComments();
+}
 
 // Add comment to the array and render it
 function addComment(name, comment) {
@@ -92,7 +92,7 @@ function renderComments() {
         let commentElement = document.createElement("p");
         commentElement.textContent = "- " + comment.comment;
 
-        let timestampElement = document.createElement("small");
+        let timestampElement = document.createElement("p");
         timestampElement.classList.add("comment-timestamp");
         timestampElement.textContent = formatDate(comment.timestamp);
 
