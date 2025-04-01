@@ -11,14 +11,12 @@ let commentsArray = [
     },
     {
         name: "Angelica Joy Uy",
-        comment: "Great goals! They'll bring new skills, experience and growth."
-                + " Exciting journey ahead!",
+        comment: "Great goals! They'll bring new skills, experience and growth. Exciting journey ahead!",
         timestamp: new Date(2025, 2, 19, 10, 0, 0)
     },
     {
         name: "Gener Andaya Jr.",
-        comment: "Your goals are amazing and full of growth. Keep striving,"
-                + " and step by step, you'll achieve them all!",
+        comment: "Your goals are amazing and full of growth. Keep striving, and step by step, you'll achieve them all!",
         timestamp: new Date(2025, 2, 19, 11, 0, 0)
     }
 ];
@@ -30,18 +28,8 @@ function toggleCommentButtonState() {
     let isNameFilled = nameInput.value.trim();
     let isMessageFilled = messageInput.value.trim();
     commentButton.disabled = !(isNameFilled && isMessageFilled);
-}
-
-commentButton.addEventListener("click", function (e) {
-    e.preventDefault();
-    let name = nameInput.value.trim();
-    let comment = messageInput.value.trim();
-    if (name && comment) {
-        addComment(name, comment);
-    }
-
     renderComments();
-});
+}
 
 // Sort button functionality
 let sortButton = document.getElementById("sort_button");
@@ -52,6 +40,16 @@ function toggleSortOrder() {
     renderComments();
 }
 
+commentButton.addEventListener("click", function (e) {
+    e.preventDefault();
+    let name = nameInput.value.trim();
+    let comment = messageInput.value.trim();
+    if (name && comment) {
+        addComment(name, comment);
+    }
+});
+
+// Add comment to the array and render it
 function addComment(name, comment) {
     commentsArray.push({
         name: name,
@@ -62,11 +60,15 @@ function addComment(name, comment) {
     nameInput.value = "";
     messageInput.value = "";
     toggleCommentButtonState();
-
     renderComments();
 }
 
-//Clears current output and shows the correct other sorted output 
+// Date Formatter
+function formatDate(date) {
+    return date.toLocaleString();
+}
+
+// Show current sort order of the comments
 function renderComments() {
     commentsArray.sort((a, b) => {
         if (sortOrderAscending) {
@@ -90,10 +92,9 @@ function renderComments() {
         let commentElement = document.createElement("p");
         commentElement.textContent = "- " + comment.comment;
 
-        let timestampElement = document.createElement("p");
+        let timestampElement = document.createElement("small");
         timestampElement.classList.add("comment-timestamp");
-        let commentDate = comment.timestamp.toLocaleString()
-        timestampElement.textContent = formatDate(commentDate);
+        timestampElement.textContent = formatDate(comment.timestamp);
 
         commentWrapper.appendChild(nameElement);
         commentWrapper.appendChild(commentElement);
@@ -103,5 +104,5 @@ function renderComments() {
     });
 }
 
-// renders existing comments on page load
+// Call initialization on page load
 document.addEventListener("DOMContentLoaded", renderComments);
