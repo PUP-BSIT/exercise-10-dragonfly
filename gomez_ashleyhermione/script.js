@@ -1,103 +1,104 @@
-document.addEventListener("DOMContentLoaded", () => {
-    let nameInput = document.getElementById("name");
-    let commentInput = document.getElementById("comment");
-    let submitButton = document.getElementById("submit_comment");
-    let commentsSection = document.getElementById("comments_section");
-    let sortButtonsContainer = document.createElement("div");
-    let sortAscButton = document.createElement("button");
-    let sortDescButton = document.createElement("button");
+document.addEventListener("DOMContentLoaded", initializeCommentSection);
 
-    sortButtonsContainer.classList.add("sort-buttons-container");
-    sortAscButton.textContent = "Sort by Date (Ascending)";
-    sortDescButton.textContent = "Sort by Date (Descending)";
-    sortAscButton.classList.add("sort-button");
-    sortDescButton.classList.add("sort-button");
+function initializeCommentSection() {
+    let commentBtn = document.getElementById("submit_comment");
+    commentBtn.disabled = true;
 
-    sortButtonsContainer.appendChild(sortAscButton);
-    sortButtonsContainer.appendChild(sortDescButton);
-    commentsSection.after(sortButtonsContainer);
+    let userName = document.getElementById("name");
+    let userComment = document.getElementById("comment");
+    let sortBtn = document.createElement("button");
+    let commentContainer = document.getElementById("comments_section");
 
-    let originalComments = [];
-    let newComments = [];
+    let ascendingOrder = true;
+    let storedComments = [
+        {
+            name: "Kevin Barcelos",
+            text: "Wow, very artistic goals. Please teach me how to design my website. I would like to learn from you.",
+            timestamp: new Date(2025, 2, 19, 9, 0, 0),
+        },
+        {
+            name: "Angelica Joy Uy",
+            text: "I'm excited to see your progress in coding and design. Keep it up!",
+            timestamp: new Date(2025, 2, 19, 10, 0, 0),
+        },
+        {
+            name: "Gener Andaya Jr.",
+            text: "These are great goals! Keep pushing your creativity and sharpening your skills—you're on the path to excellence!",
+            timestamp: new Date(2025, 2, 19, 11, 0, 0),
+        },
+    ];
 
-    document
-        .querySelectorAll("#comments_section .comment")
-        .forEach((commentDiv) => {
-            let name = commentDiv.querySelector("h3").textContent.trim();
-            let comment = commentDiv.querySelector("p").textContent.trim();
-            originalComments.push({ name, comment });
-        });
-
-    function validateForm() {
-        submitButton.disabled = !(
-            nameInput.value.trim() && commentInput.value.trim()
+    function updateButtonState() {
+        commentBtn.disabled = !(
+            userName.value.trim() && userComment.value.trim()
         );
     }
 
-    function addComment() {
-        let name = nameInput.value.trim();
-        let comment = commentInput.value.trim();
-        let date = new Date().toISOString();
+    function addNewComment(event) {
+        event.preventDefault();
+        let nameValue = userName.value.trim();
+        let commentValue = userComment.value.trim();
 
-        if (!name || !comment) return;
-
-        newComments.push({ name, comment, date });
-        renderComments();
-        nameInput.value = "";
-        commentInput.value = "";
-        validateForm();
+        if (nameValue && commentValue) {
+            storedComments.push({
+                name: nameValue,
+                text: commentValue,
+                timestamp: new Date(),
+            });
+            userName.value = "";
+            userComment.value = "";
+            updateButtonState();
+            displayComments();
+        }
     }
 
-    function renderComments() {
-        commentsSection.innerHTML = "";
+    function formatTimestamp(date) {
+        return date.toLocaleString();
+    }
 
-        originalComments.forEach(({ name, comment }) => {
-            let commentElement = document.createElement("div");
-            commentElement.classList.add("comment");
+    function displayComments() {
+        commentContainer.innerHTML = "";
+        let sortedComments = [...storedComments].sort((a, b) =>
+            ascendingOrder
+                ? a.timestamp - b.timestamp
+                : b.timestamp - a.timestamp
+        );
 
-            let nameElement = document.createElement("h3");
-            nameElement.textContent = name;
+        sortedComments.forEach((c) => {
+            let commentDiv = document.createElement("div");
+            commentDiv.classList.add("comment");
 
-            let commentText = document.createElement("p");
-            commentText.textContent = comment;
+            let author = document.createElement("h3");
+            author.textContent = c.name;
 
-            commentElement.appendChild(nameElement);
-            commentElement.appendChild(commentText);
-            commentsSection.appendChild(commentElement);
-        });
+            let message = document.createElement("p");
+            message.textContent = c.text;
 
-        newComments.forEach(({ name, comment, date }) => {
-            let commentElement = document.createElement("div");
-            commentElement.classList.add("comment");
+            let time = document.createElement("p");
+            time.classList.add("comment-timestamp");
+            time.textContent = formatTimestamp(c.timestamp);
 
-            let nameElement = document.createElement("h3");
-            nameElement.textContent = name;
-
-            let commentText = document.createElement("p");
-            commentText.textContent = comment;
-
-            let dateElement = document.createElement("span");
-            dateElement.textContent = ` (${new Date(date).toLocaleString()})`;
-
-            commentElement.appendChild(nameElement);
-            commentElement.appendChild(commentText);
-            commentElement.appendChild(dateElement);
-            commentsSection.appendChild(commentElement);
+            commentDiv.appendChild(author);
+            commentDiv.appendChild(message);
+            commentDiv.appendChild(time);
+            commentContainer.appendChild(commentDiv);
         });
     }
 
-    function sortComments(order) {
-        newComments.sort((a, b) => {
-            return order === "asc"
-                ? new Date(a.date) - new Date(b.date)
-                : new Date(b.date) - new Date(a.date);
-        });
-        renderComments();
+    function toggleSortOrder() {
+        ascendingOrder = !ascendingOrder;
+        sortBtn.textContent = `Sort by Date ${ascendingOrder ? "↑" : "↓"}`;
+        displayComments();
     }
 
-    sortAscButton.addEventListener("click", () => sortComments("asc"));
-    sortDescButton.addEventListener("click", () => sortComments("desc"));
-    nameInput.addEventListener("input", validateForm);
-    commentInput.addEventListener("input", validateForm);
-    submitButton.addEventListener("click", addComment);
-});
+    userName.addEventListener("input", updateButtonState);
+    userComment.addEventListener("input", updateButtonState);
+    commentBtn.addEventListener("click", addNewComment);
+
+    sortBtn.textContent = "Sort by Date ↑";
+    sortBtn.id = "sort_button";
+    sortBtn.addEventListener("click", toggleSortOrder);
+
+    commentContainer.parentElement.insertBefore(sortBtn, commentContainer);
+    displayComments();
+}
