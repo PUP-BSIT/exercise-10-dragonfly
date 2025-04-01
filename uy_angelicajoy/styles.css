@@ -13,7 +13,7 @@ body {
 }
 
 #image {
-    background-image: url("KM.png");
+    background-image: url("./assets/KM.png");
     background-size: cover;
     color: white;
 }
@@ -330,6 +330,10 @@ a:hover {
     font-family: inherit;
     transition: all 0.3s ease;
     background-color: #fff;
+}
+
+small {
+    background-color: #dce4eb;
 }
 
 .comment-section {
