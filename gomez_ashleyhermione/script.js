@@ -13,17 +13,23 @@ function initializeCommentSection() {
     let storedComments = [
         {
             name: "Kevin Barcelos",
-            text: "Wow, very artistic goals. Please teach me how to design my website. I would like to learn from you.",
+            text:
+                "Wow, very artistic goals. Please teach me how to" +
+                " design my website. I would like to learn from you.",
             timestamp: new Date(2025, 2, 19, 9, 0, 0),
         },
         {
             name: "Angelica Joy Uy",
-            text: "I'm excited to see your progress in coding and design. Keep it up!",
+            text:
+                "I'm excited to see your progress in coding and design." +
+                "Keep it up!",
             timestamp: new Date(2025, 2, 19, 10, 0, 0),
         },
         {
             name: "Gener Andaya Jr.",
-            text: "These are great goals! Keep pushing your creativity and sharpening your skills—you're on the path to excellence!",
+            text:
+                "These are great goals! Keep pushing your creativity and" +
+                " sharpening your skills—you're on the path to excellence!",
             timestamp: new Date(2025, 2, 19, 11, 0, 0),
         },
     ];
